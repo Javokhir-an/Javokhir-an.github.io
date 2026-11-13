@@ -114,6 +114,7 @@
     if (PROFILE.phone) lines.push('TEL;TYPE=CELL:' + PROFILE.phone.replace(/[^\d+]/g, ''));
     if (PROFILE.email) lines.push('EMAIL;TYPE=INTERNET:' + PROFILE.email);
     if (PROFILE.telegram) lines.push('URL;TYPE=Telegram:https://t.me/' + PROFILE.telegram.replace(/^@/, ''));
+    if (PROFILE.instagram) lines.push('URL;TYPE=Instagram:https://instagram.com/' + PROFILE.instagram.replace(/^@/, ''));
     if (PROFILE.github) lines.push('URL;TYPE=GitHub:https://github.com/' + PROFILE.github);
     if (PROFILE.website) lines.push('URL:' + PROFILE.website);
     else if (/^https?:/.test(location.href)) lines.push('URL:' + location.origin + location.pathname);
