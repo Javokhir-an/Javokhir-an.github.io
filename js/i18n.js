@@ -7,7 +7,7 @@ window.PROFILE = {
   telegram: 'javokhir_o23',
   email: 'javohir08122004@gmail.com',
   github: 'Javokhir-an',
-  instagram: '',      // masalan: 'username'
+  instagram: 'javohir.a.n',
   website: ''         // masalan: 'https://misol.uz'
 };
 
