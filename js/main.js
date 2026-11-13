@@ -25,6 +25,10 @@
     document.querySelectorAll('[data-i18n]').forEach(function (el) { el.textContent = t(el.getAttribute('data-i18n')); });
     document.querySelectorAll('[data-i18n-html]').forEach(function (el) { el.innerHTML = t(el.getAttribute('data-i18n-html')); });
     document.querySelectorAll('[data-i18n-alt]').forEach(function (el) { el.alt = t(el.getAttribute('data-i18n-alt')); });
+    document.querySelectorAll('[data-i18n-list]').forEach(function (el) {
+      var items = t(el.getAttribute('data-i18n-list')) || [];
+      el.innerHTML = items.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('');
+    });
     document.querySelectorAll('.lang button').forEach(function (b) {
       var on = b.getAttribute('data-lang') === next;
       b.classList.toggle('is-active', on);
@@ -289,7 +293,7 @@
       card.addEventListener('pointermove', function (e) {
         var r = card.getBoundingClientRect();
         var px = (e.clientX - r.left) / r.width - 0.5, py = (e.clientY - r.top) / r.height - 0.5;
-        card.style.transform = 'perspective(900px) rotateX(' + (-py * 8).toFixed(2) + 'deg) rotateY(' + (px * 10).toFixed(2) + 'deg) translateY(-4px)';
+        card.style.transform = 'perspective(900px) rotateX(' + (-py * 3).toFixed(2) + 'deg) rotateY(' + (px * 4).toFixed(2) + 'deg) translateY(-3px)';
       });
       card.addEventListener('pointerleave', function () { card.style.transform = ''; });
     });
