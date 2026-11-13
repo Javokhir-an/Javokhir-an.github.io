@@ -67,6 +67,7 @@
   var ICONS = {
     phone: '<path d="M6.6 3.5h2.6l1.4 4.2-2 1.4a12 12 0 0 0 6.3 6.3l1.4-2 4.2 1.4v2.6a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>',
     telegram: '<path d="M21.5 4.5L2.8 11.6c-.9.4-.9 1.6 0 1.9l4.6 1.5 1.8 5.4c.3.8 1.3 1 1.9.4l2.6-2.5 4.8 3.5c.7.5 1.6.1 1.8-.7l3.1-14.6c.2-.9-.7-1.6-1.9-1z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>',
+    whatsapp: '<path d="M4.2 20l1.2-4.1a8.6 8.6 0 1 1 3.1 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M9.1 8.3c.3-.5.8-.5 1 0l.6 1.5c.1.3 0 .6-.2.8l-.5.5c.6 1.2 1.6 2.2 2.8 2.8l.5-.5c.2-.2.5-.3.8-.2l1.5.6c.5.2.5.7 0 1-.9.6-2 .7-3 .2-1.9-.9-3.4-2.4-4.3-4.3-.5-1-.4-2.1.3-3z" fill="currentColor"/>',
     email: '<rect x="3" y="5" width="18" height="14" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 6.5l8.5 6.5 8.5-6.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>',
     github: '<path d="M12 2.5a9.5 9.5 0 0 0-3 18.5c.5.1.7-.2.7-.5v-1.7c-2.7.6-3.3-1.2-3.3-1.2-.4-1.1-1.1-1.4-1.1-1.4-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.3-1.1.6-1.3-2.1-.2-4.4-1.1-4.4-4.8 0-1 .4-1.9 1-2.6-.1-.3-.4-1.2.1-2.5 0 0 .8-.3 2.6 1a9 9 0 0 1 4.8 0c1.8-1.3 2.6-1 2.6-1 .5 1.3.2 2.2.1 2.5.6.7 1 1.6 1 2.6 0 3.7-2.3 4.6-4.4 4.8.3.3.7.9.7 1.8v2.7c0 .3.2.6.7.5A9.5 9.5 0 0 0 12 2.5z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>',
     instagram: '<rect x="3.5" y="3.5" width="17" height="17" rx="5" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor"/>',
@@ -77,6 +78,7 @@
     var items = [];
     if (PROFILE.phone) items.push({ k: 'phone', value: PROFILE.phone, href: 'tel:' + PROFILE.phone.replace(/[^\d+]/g, '') });
     if (PROFILE.telegram) items.push({ k: 'telegram', value: '@' + PROFILE.telegram.replace(/^@/, ''), href: 'https://t.me/' + PROFILE.telegram.replace(/^@/, '') });
+    if (PROFILE.whatsapp) items.push({ k: 'whatsapp', value: PROFILE.whatsapp.replace(/^\+?998(\d{2})(\d{3})(\d{2})(\d{2})$/, '+998 $1 $2 $3 $4'), href: 'https://wa.me/' + PROFILE.whatsapp.replace(/\D/g, '') });
     if (PROFILE.email) items.push({ k: 'email', value: PROFILE.email, href: 'mailto:' + PROFILE.email });
     if (PROFILE.github) items.push({ k: 'github', value: PROFILE.github, href: 'https://github.com/' + PROFILE.github });
     if (PROFILE.instagram) items.push({ k: 'instagram', value: '@' + PROFILE.instagram.replace(/^@/, ''), href: 'https://instagram.com/' + PROFILE.instagram.replace(/^@/, '') });
@@ -114,6 +116,7 @@
     if (PROFILE.phone) lines.push('TEL;TYPE=CELL:' + PROFILE.phone.replace(/[^\d+]/g, ''));
     if (PROFILE.email) lines.push('EMAIL;TYPE=INTERNET:' + PROFILE.email);
     if (PROFILE.telegram) lines.push('URL;TYPE=Telegram:https://t.me/' + PROFILE.telegram.replace(/^@/, ''));
+    if (PROFILE.whatsapp) lines.push('URL;TYPE=WhatsApp:https://wa.me/' + PROFILE.whatsapp.replace(/\D/g, ''));
     if (PROFILE.instagram) lines.push('URL;TYPE=Instagram:https://instagram.com/' + PROFILE.instagram.replace(/^@/, ''));
     if (PROFILE.github) lines.push('URL;TYPE=GitHub:https://github.com/' + PROFILE.github);
     if (PROFILE.website) lines.push('URL:' + PROFILE.website);
