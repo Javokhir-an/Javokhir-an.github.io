@@ -85,7 +85,13 @@
     canvas.height = Math.max(1, Math.round(H * DPR));
     ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
     mobile = W < 860;
-    if (mobile) {
+    // Portret boʻlsa, globus aynan uning orqasida, atrofida nur halqasi boʻlib turadi
+    var anchor = document.querySelector('[data-globe-anchor]');
+    if (anchor && anchor.offsetWidth) {
+      CX = anchor.offsetLeft + anchor.offsetWidth / 2;
+      CY = anchor.offsetTop + anchor.offsetHeight / 2;
+      R = anchor.offsetWidth / 2 / 0.6;
+    } else if (mobile) {
       R = Math.min(W * 0.4, H * 0.24);
       CX = W * 0.62; CY = H * 0.2;
     } else {
@@ -251,6 +257,7 @@
     my = (e.clientY / window.innerHeight - 0.5) * 2;
   }, { passive: true });
   window.addEventListener('resize', function () { resize(); if (reduceMotion) render(0); });
+  window.addEventListener('load', function () { resize(); if (reduceMotion) render(0); });
   document.addEventListener('visibilitychange', sync);
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(function (entries) { visible = entries[0].isIntersecting; sync(); }).observe(canvas);

@@ -24,6 +24,7 @@
     if (md) md.setAttribute('content', t('meta_desc'));
     document.querySelectorAll('[data-i18n]').forEach(function (el) { el.textContent = t(el.getAttribute('data-i18n')); });
     document.querySelectorAll('[data-i18n-html]').forEach(function (el) { el.innerHTML = t(el.getAttribute('data-i18n-html')); });
+    document.querySelectorAll('[data-i18n-alt]').forEach(function (el) { el.alt = t(el.getAttribute('data-i18n-alt')); });
     document.querySelectorAll('.lang button').forEach(function (b) {
       var on = b.getAttribute('data-lang') === next;
       b.classList.toggle('is-active', on);
@@ -104,6 +105,21 @@
   }
 
   /* ---------------- vCard: telefonga kontakt saqlash ---------------- */
+  // Kontaktga rasm ham qoʻshilishi uchun kichik avatar oldindan yuklab qoʻyiladi
+  var avatarB64 = '';
+  if (window.fetch && window.FileReader && /^https?:/.test(location.protocol)) {
+    fetch('img/avatar-256.jpg').then(function (r) { return r.ok ? r.blob() : null; }).then(function (b) {
+      if (!b) return;
+      var fr = new FileReader();
+      fr.onload = function () { avatarB64 = String(fr.result).split(',')[1] || ''; };
+      fr.readAsDataURL(b);
+    }).catch(function () {});
+  }
+  function vcardFold(line) {
+    var out = [];
+    for (var i = 0; i < line.length; i += 74) out.push((i ? ' ' : '') + line.slice(i, i + 74));
+    return out.join('\r\n');
+  }
   function vcardEscape(s) { return String(s).replace(/\\/g, '\\\\').replace(/\n/g, '\\n').replace(/([,;])/g, '\\$1'); }
   function saveContact() {
     var L = I18N[lang];
@@ -122,6 +138,7 @@
     if (PROFILE.website) lines.push('URL:' + PROFILE.website);
     else if (/^https?:/.test(location.href)) lines.push('URL:' + location.origin + location.pathname);
     lines.push('ADR;TYPE=WORK:;;;' + vcardEscape(t('eyebrow').split(',')[0]) + ';;;' + vcardEscape((t('eyebrow').split(',')[1] || '').trim()));
+    if (avatarB64) lines.push(vcardFold('PHOTO;ENCODING=b;TYPE=JPEG:' + avatarB64));
     lines.push('END:VCARD');
     var blob = new Blob([lines.join('\r\n') + '\r\n'], { type: 'text/vcard;charset=utf-8' });
     var a = document.createElement('a');
