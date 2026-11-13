@@ -245,10 +245,11 @@ html.has-cursor, html.has-cursor * { cursor: none !important; }
 }
 .role__line { width: 34px; height: 2px; background: var(--grad); border-radius: 2px; flex-shrink: 0; }
 .role__words {
-  position: relative; display: inline-block; height: 1.45em; overflow: hidden; white-space: nowrap;
-  transition: width 0.7s cubic-bezier(.16,1,.3,1);
+  position: relative; display: inline-block; height: 1.45em; white-space: nowrap;
+  clip-path: inset(0 -200vw 0 -24px);   /* faqat tepa-pastdan qirqadi, eniga erkin */
 }
-.role__word { position: absolute; left: 0; top: 0; white-space: nowrap; line-height: 1.45em; }
+.role__word { display: inline-block; white-space: nowrap; line-height: 1.45em; vertical-align: top; }
+.role__word.is-out { position: absolute; left: 0; top: 0; }
 .role__word .rl {
   display: inline-block; transform: translateY(105%); opacity: 0; filter: blur(5px);
   transition: transform 0.75s cubic-bezier(.16,1,.3,1), opacity 0.5s ease, filter 0.6s ease;

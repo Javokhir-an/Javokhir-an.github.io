@@ -80,42 +80,50 @@
   var roleTimer = 0, roleIdx = 0;
   function showRole(text) {
     var old = roleEl.querySelector('.role__word.is-in');
+    if (old) {
+      // Eski soʻz oqimdan chiqadi (absolute) — quti eni yangi soʻzga oʻzi moslanadi
+      old.classList.remove('is-in');
+      old.classList.add('is-out');
+      setTimeout(function () { if (old.parentNode) old.parentNode.removeChild(old); }, 1000);
+    }
     var w = document.createElement('span');
     w.className = 'role__word';
     w.innerHTML = Array.prototype.map.call(text, function (ch, i) {
       return '<span class="rl" style="--i:' + i + '">' + (ch === ' ' ? '&nbsp;' : esc(ch)) + '</span>';
     }).join('');
     roleEl.appendChild(w);
-    var newW = Math.ceil(w.offsetWidth), oldW = old ? Math.ceil(old.offsetWidth) : 0;
-    // Eski soʻz chiqib ketguncha quti qisqarmaydi, keyin yangi soʻz eniga moslanadi
-    roleEl.style.width = Math.max(newW, oldW) + 'px';
-    if (oldW > newW) setTimeout(function () { if (w.classList.contains('is-in')) roleEl.style.width = newW + 'px'; }, 480);
     requestAnimationFrame(function () { requestAnimationFrame(function () { w.classList.add('is-in'); }); });
-    if (old) {
-      old.classList.remove('is-in');
-      old.classList.add('is-out');
-      setTimeout(function () { if (old.parentNode) old.parentNode.removeChild(old); }, 1000);
-    }
+  }
+  var heroStarted = false;
+  function scheduleRoles(firstHold) {
+    clearTimeout(roleTimer);
+    var roles = t('roles');
+    roleTimer = setTimeout(function next() {
+      showRole(roles[roleIdx % roles.length]);
+      roleIdx++;
+      roleTimer = setTimeout(next, 2600);
+    }, firstHold);
   }
   function restartRoles() {
     clearTimeout(roleTimer);
     var roles = t('roles');
-    roleIdx = 0;
     if (rolesSr) rolesSr.textContent = roles.join(', ');
     roleEl.innerHTML = '';
     if (reduceMotion) {
-      roleEl.style.width = 'auto';
       roleEl.style.height = 'auto';
-      roleEl.style.whiteSpace = 'normal';
+      roleEl.style.clipPath = 'none';
       roleEl.textContent = roles.join(' · ');
       return;
     }
-    (function next() {
-      showRole(roles[roleIdx % roles.length]);
-      roleIdx++;
-      roleTimer = setTimeout(next, 2600);
-    })();
+    // Birinchi boʻlib rasmiy lavozim koʻrinadi; almashish faqat birinchi ekran ochilgach boshlanadi
+    showRole(roles[0]);
+    roleIdx = 1;
+    if (heroStarted) scheduleRoles(3200);
   }
+  window.addEventListener('hero:in', function () {
+    heroStarted = true;
+    if (!reduceMotion) scheduleRoles(4200);
+  });
 
   /* ---------------- Aloqa kartalari ---------------- */
   var ICONS = {
