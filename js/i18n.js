@@ -3,9 +3,9 @@
    Aloqa maʼlumotlarini shu yerda toʻldiring — boʻsh qolganlari saytda chiqmaydi.
    ========================================================================= */
 window.PROFILE = {
-  phone: '',          // masalan: '+998 90 123 45 67'
-  telegram: '',       // masalan: 'username'  (@ belgisisiz)
-  email: '',          // masalan: 'ism@gmail.com'
+  phone: '+998 20 004 88 86',
+  telegram: 'javokhir_o23',
+  email: 'javohir08122004@gmail.com',
   github: 'Javokhir-an',
   instagram: '',      // masalan: 'username'
   website: ''         // masalan: 'https://misol.uz'
