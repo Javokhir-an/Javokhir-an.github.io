@@ -33,6 +33,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 svg { display: block; }
 ::selection { background: rgba(167, 139, 250, 0.35); color: #fff; }
 :focus-visible { outline: 2px solid var(--c1); outline-offset: 3px; border-radius: 8px; }
+.font-warmup { position: absolute; left: -9999px; top: 0; font-family: var(--display); font-weight: 800; opacity: 0; pointer-events: none; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
 .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 var(--gutter); }
@@ -153,6 +154,49 @@ svg { display: block; }
 .portrait__badge--b { right: -12%; bottom: 10%; animation-delay: -3s; }
 .portrait__badge--b svg { color: var(--c3); }
 @keyframes float { from { transform: translateY(-7px); } to { transform: translateY(7px); } }
+.js .portrait { opacity: 0; transform: scale(0.8); filter: blur(14px); }
+.hero--in .portrait { opacity: 1; transform: none; filter: none; transition: opacity 1.2s ease 0.35s, transform 1.8s cubic-bezier(.16,1,.3,1) 0.35s, filter 1.2s ease 0.35s; }
+.js .portrait__badge { opacity: 0; }
+.hero--in .portrait__badge { opacity: 1; transition: opacity 0.9s ease 1.7s; }
+.hero--in .portrait__badge--b { transition-delay: 2s; }
+
+/* ---------- Kirish (intro) ---------- */
+html.intro-lock { overflow: hidden; }
+.intro {
+  position: fixed; inset: 0; z-index: 100; display: none; align-items: center; justify-content: center;
+  background: radial-gradient(700px 480px at 50% 50%, #10132a 0%, #05060a 70%);
+  clip-path: inset(0 0 0 0);
+  transition: clip-path 1s cubic-bezier(.76,0,.24,1);
+}
+.intro-on .intro { display: flex; }
+.intro.is-out { clip-path: inset(0 0 100% 0); }
+.intro__inner { display: flex; flex-direction: column; align-items: center; gap: 28px; transition: transform 1s cubic-bezier(.76,0,.24,1), opacity 0.6s ease; }
+.intro.is-out .intro__inner { transform: translateY(-70px); opacity: 0; }
+.intro__mark { width: 116px; height: 116px; overflow: visible; filter: drop-shadow(0 0 22px rgba(139, 92, 246, 0.65)); }
+.intro__rect { stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 1.15s cubic-bezier(.65,0,.35,1) 0.1s forwards; }
+.intro__text { font-family: var(--display); font-weight: 800; font-size: 40px; letter-spacing: -1px; opacity: 0; animation: introFade 0.7s ease 0.6s forwards; }
+.intro__bar { width: 170px; height: 2px; border-radius: 2px; overflow: hidden; background: rgba(255, 255, 255, 0.08); }
+.intro__bar span { display: block; width: 100%; height: 100%; background: var(--grad); transform: scaleX(0); transform-origin: left; animation: bar 1.4s cubic-bezier(.65,0,.35,1) 0.1s forwards; }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+@keyframes introFade { to { opacity: 1; } }
+@keyframes bar { to { transform: scaleX(1); } }
+
+/* ---------- Kursor ---------- */
+html.has-cursor, html.has-cursor * { cursor: none !important; }
+.cursor { position: fixed; left: 0; top: 0; z-index: 90; pointer-events: none; opacity: 0; transition: opacity 0.3s; }
+.cursor.is-on { opacity: 1; }
+.cursor__dot, .cursor__ring { position: fixed; left: 0; top: 0; border-radius: 50%; pointer-events: none; will-change: transform; }
+.cursor__dot { width: 6px; height: 6px; margin: -3px 0 0 -3px; background: #fff; box-shadow: 0 0 10px rgba(255, 255, 255, 0.8); }
+.cursor__ring {
+  width: 38px; height: 38px; margin: -19px 0 0 -19px; border: 1.5px solid rgba(255, 255, 255, 0.45);
+  transition: width 0.3s cubic-bezier(.2,.8,.2,1), height 0.3s cubic-bezier(.2,.8,.2,1), margin 0.3s cubic-bezier(.2,.8,.2,1), background-color 0.3s, border-color 0.3s;
+}
+.cursor.is-hover .cursor__ring { width: 66px; height: 66px; margin: -33px 0 0 -33px; background: rgba(167, 139, 250, 0.12); border-color: rgba(167, 139, 250, 0.75); }
+.cursor.is-down .cursor__ring { width: 26px; height: 26px; margin: -13px 0 0 -13px; }
+
+/* ---------- Oʻqish chizigʻi ---------- */
+.progress { position: fixed; top: 0; left: 0; right: 0; height: 2px; z-index: 45; pointer-events: none; }
+.progress span { display: block; height: 100%; background: var(--grad); transform: scaleX(0); transform-origin: left; box-shadow: 0 0 12px rgba(167, 139, 250, 0.8); }
 
 .eyebrow {
   display: inline-flex; align-items: center; gap: 10px; margin: 0 0 26px;
@@ -175,7 +219,17 @@ svg { display: block; }
   margin: 0; font-family: var(--display); font-weight: 800;
   font-size: clamp(30px, 6.3vw, 88px); line-height: 0.98; letter-spacing: -0.035em;
 }
-.name span { display: block; }
+.name__line { display: block; }
+.name__line:last-child { overflow: hidden; padding: 0.04em 0.05em 0.14em; margin: -0.04em -0.05em -0.14em; }
+.name__first, .name__last { display: inline-block; white-space: nowrap; }
+.name__first .ch { display: inline-block; transition: transform 0.35s cubic-bezier(.2,.8,.2,1), color 0.35s, text-shadow 0.35s; }
+.js .name__first .ch { opacity: 0; transform: translateY(70%) rotate(10deg) scale(0.9); filter: blur(10px); }
+.hero--in .name__first .ch { animation: chIn 1.1s cubic-bezier(.16,1,.3,1) forwards; animation-delay: calc(var(--i) * 45ms + 250ms); }
+.js .name__first .ch.is-done { opacity: 1; transform: none; filter: none; animation: none; }
+.js .name__first .ch.is-done:hover { transform: translateY(-0.1em) scale(1.06); color: #22d3ee; text-shadow: 0 0 30px rgba(34, 211, 238, 0.7); }
+@keyframes chIn { to { opacity: 1; transform: none; filter: none; } }
+.js .name__last { transform: translateY(110%); filter: blur(8px); }
+.hero--in .name__last { transform: none; filter: none; transition: transform 1.3s cubic-bezier(.16,1,.3,1) 0.55s, filter 1.3s ease 0.55s; }
 .name__first { color: #f5f7fc; text-shadow: 0 0 40px rgba(139, 92, 246, 0.25); }
 .name__last {
   background: var(--grad); background-size: 200% 100%;
@@ -192,6 +246,8 @@ svg { display: block; }
 .role__line { width: 34px; height: 2px; background: var(--grad); border-radius: 2px; flex-shrink: 0; }
 .caret { width: 2px; height: 1.1em; background: var(--c1); margin-left: -8px; animation: blink 1s steps(1) infinite; }
 @keyframes blink { 50% { opacity: 0; } }
+
+.role .dud { color: var(--c2); opacity: 0.85; }
 
 .lead { max-width: 540px; margin: 18px 0 0; color: var(--muted); font-size: clamp(15.5px, 1.5vw, 18px); }
 

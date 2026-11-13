@@ -30,38 +30,90 @@
       b.classList.toggle('is-active', on);
       b.setAttribute('aria-pressed', on ? 'true' : 'false');
     });
+    document.querySelectorAll('[data-split]').forEach(splitLetters);
+    fitName();
     renderContacts();
-    restartTyping();
+    restartRoles();
+  }
+
+  /* Ism portret bilan toʻqnashmasligi uchun shrift oʻlchami joyga moslanadi (ayniqsa RU/EN) */
+  var nameEl = document.querySelector('.name'), portraitEl = document.querySelector('.portrait');
+  function fitName() {
+    if (!nameEl) return;
+    nameEl.style.fontSize = '';
+    var widest = 0;
+    nameEl.querySelectorAll('.name__first, .name__last').forEach(function (l) { widest = Math.max(widest, l.offsetWidth); });
+    var avail = nameEl.clientWidth;
+    if (window.innerWidth >= 860 && portraitEl && portraitEl.offsetWidth) {
+      avail = Math.min(avail, portraitEl.offsetLeft - portraitEl.offsetWidth * 0.2 - nameEl.getBoundingClientRect().left - 20);
+    }
+    if (widest > avail && avail > 0) {
+      nameEl.style.fontSize = (parseFloat(getComputedStyle(nameEl).fontSize) * avail / widest).toFixed(1) + 'px';
+    }
+  }
+  window.addEventListener('resize', fitName);
+  if (document.fonts) {
+    if (document.fonts.ready) document.fonts.ready.then(fitName);
+    // Kirill harflari shrifti keyinroq yuklanadi — yuklangach oʻlcham qayta hisoblanadi
+    if (document.fonts.addEventListener) document.fonts.addEventListener('loadingdone', fitName);
+  }
+
+  /* Ismni harflarga boʻlish: har bir harf alohida uchib kiradi */
+  function splitLetters(el) {
+    var text = el.textContent;
+    el.setAttribute('aria-label', text);
+    el.innerHTML = Array.prototype.map.call(text, function (ch, i) {
+      return '<span class="ch" aria-hidden="true" style="--i:' + i + '">' + (ch === ' ' ? '&nbsp;' : esc(ch)) + '</span>';
+    }).join('');
+    el.querySelectorAll('.ch').forEach(function (s) {
+      s.addEventListener('animationend', function () { s.classList.add('is-done'); });
+    });
   }
 
   document.querySelectorAll('.lang button').forEach(function (b) {
     b.addEventListener('click', function () { applyLang(b.getAttribute('data-lang')); });
   });
 
-  /* ---------------- Yozilib chiqadigan kasb ---------------- */
-  var typedEl = document.getElementById('typed');
-  var typeTimer = 0, roleIdx = 0;
-  function restartTyping() {
-    clearTimeout(typeTimer);
+  /* ---------------- Kasb: "shifr ochilishi" effekti ---------------- */
+  var roleEl = document.getElementById('typed');
+  var roleTimer = 0, roleRaf = 0, roleIdx = 0;
+  var GLYPHS = '!_/[]{}=+*^?#01ABCDEFXZ';
+  function scrambleTo(next, done) {
+    cancelAnimationFrame(roleRaf);
+    var prev = roleEl.textContent, len = Math.max(prev.length, next.length), q = [];
+    for (var i = 0; i < len; i++) {
+      var st = Math.floor(Math.random() * 14);
+      q.push({ from: prev.charAt(i), to: next.charAt(i), start: st, end: st + 8 + Math.floor(Math.random() * 16), ch: '' });
+    }
+    var frame = 0;
+    (function update() {
+      var html = '', complete = 0;
+      for (var j = 0; j < q.length; j++) {
+        var it = q[j];
+        if (frame >= it.end) { complete++; html += esc(it.to); }
+        else if (frame >= it.start) {
+          if (!it.ch || Math.random() < 0.3) it.ch = GLYPHS.charAt(Math.floor(Math.random() * GLYPHS.length));
+          html += '<span class="dud">' + esc(it.ch) + '</span>';
+        } else html += esc(it.from);
+      }
+      roleEl.innerHTML = html;
+      if (complete === q.length) { if (done) done(); return; }
+      frame++;
+      roleRaf = requestAnimationFrame(update);
+    })();
+  }
+  function restartRoles() {
+    clearTimeout(roleTimer); cancelAnimationFrame(roleRaf);
     var roles = t('roles');
     roleIdx = 0;
-    if (reduceMotion) { typedEl.textContent = roles.join(' · '); return; }
-    var text = '', deleting = false;
-    function tick() {
-      var full = roles[roleIdx % roles.length];
-      if (!deleting) {
-        text = full.slice(0, text.length + 1);
-        typedEl.textContent = text;
-        if (text === full) { deleting = true; typeTimer = setTimeout(tick, 1800); return; }
-        typeTimer = setTimeout(tick, 55 + Math.random() * 45);
-      } else {
-        text = full.slice(0, text.length - 1);
-        typedEl.textContent = text;
-        if (!text) { deleting = false; roleIdx++; typeTimer = setTimeout(tick, 350); return; }
-        typeTimer = setTimeout(tick, 28);
-      }
-    }
-    tick();
+    if (reduceMotion) { roleEl.textContent = roles.join(' · '); return; }
+    roleEl.textContent = '';
+    (function next() {
+      scrambleTo(roles[roleIdx % roles.length], function () {
+        roleIdx++;
+        roleTimer = setTimeout(next, 2400);
+      });
+    })();
   }
 
   /* ---------------- Aloqa kartalari ---------------- */
@@ -174,12 +226,19 @@
 
   /* ---------------- Navigatsiya ---------------- */
   var navEl = document.getElementById('nav');
-  function onScroll() { navEl.classList.toggle('is-scrolled', window.scrollY > 24); }
+  var progressEl = document.querySelector('.progress span');
+  function onScroll() {
+    navEl.classList.toggle('is-scrolled', window.scrollY > 24);
+    if (progressEl) {
+      var max = document.documentElement.scrollHeight - window.innerHeight;
+      progressEl.style.transform = 'scaleX(' + (max > 0 ? Math.min(1, window.scrollY / max) : 0).toFixed(4) + ')';
+    }
+  }
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
   /* ---------------- Paydo boʻlish animatsiyasi ---------------- */
-  var reveals = document.querySelectorAll('.reveal');
+  var reveals = Array.prototype.filter.call(document.querySelectorAll('.reveal'), function (el) { return !el.closest('.hero'); });
   if (reduceMotion || !('IntersectionObserver' in window)) {
     reveals.forEach(function (el) { el.classList.add('is-in'); });
   } else {
@@ -236,11 +295,30 @@
     });
 
     var glow = document.querySelector('.cursor-glow');
-    var gx = window.innerWidth / 2, gy = window.innerHeight / 2, tx = gx, ty = gy;
-    window.addEventListener('pointermove', function (e) { tx = e.clientX; ty = e.clientY; glow.classList.add('is-on'); }, { passive: true });
+    var cur = document.querySelector('.cursor');
+    var dot = cur && cur.querySelector('.cursor__dot'), ring = cur && cur.querySelector('.cursor__ring');
+    var gx = window.innerWidth / 2, gy = window.innerHeight / 2, tx = gx, ty = gy, rx = gx, ry = gy;
+    if (cur) document.documentElement.classList.add('has-cursor');
+    window.addEventListener('pointermove', function (e) {
+      if (e.pointerType !== 'mouse') return;
+      tx = e.clientX; ty = e.clientY;
+      glow.classList.add('is-on');
+      if (cur) cur.classList.add('is-on');
+    }, { passive: true });
+    document.addEventListener('mouseleave', function () { if (cur) cur.classList.remove('is-on'); });
+    window.addEventListener('pointerdown', function () { if (cur) cur.classList.add('is-down'); });
+    window.addEventListener('pointerup', function () { if (cur) cur.classList.remove('is-down'); });
+    document.addEventListener('pointerover', function (e) {
+      if (cur) cur.classList.toggle('is-hover', !!(e.target.closest && e.target.closest('a, button, .card, .contact-card, .portrait, .name__first .ch')));
+    });
     (function follow() {
       gx += (tx - gx) * 0.12; gy += (ty - gy) * 0.12;
+      rx += (tx - rx) * 0.2; ry += (ty - ry) * 0.2;
       glow.style.transform = 'translate(' + (gx - 300) + 'px,' + (gy - 300) + 'px)';
+      if (cur) {
+        dot.style.transform = 'translate3d(' + tx + 'px,' + ty + 'px,0)';
+        ring.style.transform = 'translate3d(' + rx.toFixed(1) + 'px,' + ry.toFixed(1) + 'px,0)';
+      }
       requestAnimationFrame(follow);
     })();
   }
@@ -249,4 +327,31 @@
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
   applyLang(lang);
+
+  /* ---------------- Kirish (intro) va birinchi ekran ---------------- */
+  var root = document.documentElement;
+  var heroReveals = document.querySelectorAll('.hero .reveal');
+  function heroIn() {
+    if (document.body.classList.contains('hero--in')) return;
+    document.body.classList.add('hero--in');
+    heroReveals.forEach(function (el, i) {
+      el.style.transitionDelay = (reduceMotion ? 0 : 700 + i * 120) + 'ms';
+      el.classList.add('is-in');
+    });
+    window.dispatchEvent(new Event('hero:in'));
+  }
+  var intro = document.getElementById('intro');
+  if (intro && root.classList.contains('intro-on')) {
+    try { sessionStorage.setItem('intro', '1'); } catch (e) {}
+    setTimeout(function () {
+      intro.classList.add('is-out');
+      root.classList.remove('intro-lock');
+      setTimeout(heroIn, 200);
+      setTimeout(function () { intro.remove(); root.classList.remove('intro-on'); }, 1300);
+    }, 1600);
+  } else {
+    if (intro) intro.remove();
+    root.classList.remove('intro-lock');
+    setTimeout(heroIn, 80);
+  }
 })();
