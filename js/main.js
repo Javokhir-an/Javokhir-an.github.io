@@ -74,45 +74,46 @@
     b.addEventListener('click', function () { applyLang(b.getAttribute('data-lang')); });
   });
 
-  /* ---------------- Kasb: "shifr ochilishi" effekti ---------------- */
+  /* ---------------- Kasb: soʻzlar silliq almashadi (harflar pastdan chiqadi) ---------------- */
   var roleEl = document.getElementById('typed');
-  var roleTimer = 0, roleRaf = 0, roleIdx = 0;
-  var GLYPHS = '!_/[]{}=+*^?#01ABCDEFXZ';
-  function scrambleTo(next, done) {
-    cancelAnimationFrame(roleRaf);
-    var prev = roleEl.textContent, len = Math.max(prev.length, next.length), q = [];
-    for (var i = 0; i < len; i++) {
-      var st = Math.floor(Math.random() * 14);
-      q.push({ from: prev.charAt(i), to: next.charAt(i), start: st, end: st + 8 + Math.floor(Math.random() * 16), ch: '' });
+  var rolesSr = document.getElementById('roles-sr');
+  var roleTimer = 0, roleIdx = 0;
+  function showRole(text) {
+    var old = roleEl.querySelector('.role__word.is-in');
+    var w = document.createElement('span');
+    w.className = 'role__word';
+    w.innerHTML = Array.prototype.map.call(text, function (ch, i) {
+      return '<span class="rl" style="--i:' + i + '">' + (ch === ' ' ? '&nbsp;' : esc(ch)) + '</span>';
+    }).join('');
+    roleEl.appendChild(w);
+    var newW = Math.ceil(w.offsetWidth), oldW = old ? Math.ceil(old.offsetWidth) : 0;
+    // Eski soʻz chiqib ketguncha quti qisqarmaydi, keyin yangi soʻz eniga moslanadi
+    roleEl.style.width = Math.max(newW, oldW) + 'px';
+    if (oldW > newW) setTimeout(function () { if (w.classList.contains('is-in')) roleEl.style.width = newW + 'px'; }, 480);
+    requestAnimationFrame(function () { requestAnimationFrame(function () { w.classList.add('is-in'); }); });
+    if (old) {
+      old.classList.remove('is-in');
+      old.classList.add('is-out');
+      setTimeout(function () { if (old.parentNode) old.parentNode.removeChild(old); }, 1000);
     }
-    var frame = 0;
-    (function update() {
-      var html = '', complete = 0;
-      for (var j = 0; j < q.length; j++) {
-        var it = q[j];
-        if (frame >= it.end) { complete++; html += esc(it.to); }
-        else if (frame >= it.start) {
-          if (!it.ch || Math.random() < 0.3) it.ch = GLYPHS.charAt(Math.floor(Math.random() * GLYPHS.length));
-          html += '<span class="dud">' + esc(it.ch) + '</span>';
-        } else html += esc(it.from);
-      }
-      roleEl.innerHTML = html;
-      if (complete === q.length) { if (done) done(); return; }
-      frame++;
-      roleRaf = requestAnimationFrame(update);
-    })();
   }
   function restartRoles() {
-    clearTimeout(roleTimer); cancelAnimationFrame(roleRaf);
+    clearTimeout(roleTimer);
     var roles = t('roles');
     roleIdx = 0;
-    if (reduceMotion) { roleEl.textContent = roles.join(' · '); return; }
-    roleEl.textContent = '';
+    if (rolesSr) rolesSr.textContent = roles.join(', ');
+    roleEl.innerHTML = '';
+    if (reduceMotion) {
+      roleEl.style.width = 'auto';
+      roleEl.style.height = 'auto';
+      roleEl.style.whiteSpace = 'normal';
+      roleEl.textContent = roles.join(' · ');
+      return;
+    }
     (function next() {
-      scrambleTo(roles[roleIdx % roles.length], function () {
-        roleIdx++;
-        roleTimer = setTimeout(next, 2400);
-      });
+      showRole(roles[roleIdx % roles.length]);
+      roleIdx++;
+      roleTimer = setTimeout(next, 2600);
     })();
   }
 

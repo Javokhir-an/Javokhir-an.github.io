@@ -244,10 +244,22 @@ html.has-cursor, html.has-cursor * { cursor: none !important; }
   min-height: 1.6em; font-size: clamp(17px, 2.2vw, 24px); font-weight: 500; color: #dfe4f0;
 }
 .role__line { width: 34px; height: 2px; background: var(--grad); border-radius: 2px; flex-shrink: 0; }
-.caret { width: 2px; height: 1.1em; background: var(--c1); margin-left: -8px; animation: blink 1s steps(1) infinite; }
+.role__words {
+  position: relative; display: inline-block; height: 1.45em; overflow: hidden; white-space: nowrap;
+  transition: width 0.7s cubic-bezier(.16,1,.3,1);
+}
+.role__word { position: absolute; left: 0; top: 0; white-space: nowrap; line-height: 1.45em; }
+.role__word .rl {
+  display: inline-block; transform: translateY(105%); opacity: 0; filter: blur(5px);
+  transition: transform 0.75s cubic-bezier(.16,1,.3,1), opacity 0.5s ease, filter 0.6s ease;
+  transition-delay: calc(var(--i) * 24ms);
+}
+.role__word.is-in .rl { transform: none; opacity: 1; filter: none; }
+.role__word.is-out .rl {
+  transform: translateY(-105%); opacity: 0; filter: blur(5px);
+  transition-duration: 0.5s, 0.35s, 0.4s; transition-delay: calc(var(--i) * 14ms);
+}
 @keyframes blink { 50% { opacity: 0; } }
-
-.role .dud { color: var(--c2); opacity: 0.85; }
 
 .lead { max-width: 540px; margin: 18px 0 0; color: var(--muted); font-size: clamp(15.5px, 1.5vw, 18px); }
 
