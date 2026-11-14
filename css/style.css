@@ -244,6 +244,11 @@ html.has-cursor, html.has-cursor * { cursor: none !important; }
   min-height: 1.6em; font-size: clamp(17px, 2.2vw, 24px); font-weight: 500; color: #dfe4f0;
 }
 .role__line { width: 34px; height: 2px; background: var(--grad); border-radius: 2px; flex-shrink: 0; }
+.role { flex-wrap: wrap; row-gap: 4px; }
+.role__main { font-weight: 600; color: #fff; white-space: nowrap; }
+.role__sep { flex-shrink: 0; width: 1.5px; height: 1.05em; border-radius: 1px; background: linear-gradient(180deg, var(--c1), var(--c2)); }
+.role--stack .role__sep { display: none; }
+.role--stack .role__words { flex-basis: calc(100% - 46px); margin-left: 46px; height: auto; min-height: 1.45em; }
 .role__words {
   position: relative; display: inline-block; height: 1.45em; white-space: nowrap;
   clip-path: inset(0 -200vw 0 -24px);   /* faqat tepa-pastdan qirqadi, eniga erkin */

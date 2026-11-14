@@ -24,14 +24,15 @@ window.STACK = [
 
 window.I18N = {
   uz: {
-    meta_title: 'Javoxirbek Abduxalimov — Kompyuter tizimlari muhandisi',
+    meta_title: 'Javoxirbek Abduxalimov — Kompyuter tizimlari muhandisi | Tizim administratori',
     meta_desc: 'Javoxirbek Abduxalimov — Toshkentlik kompyuter tizimlari muhandisi va dasturchi. Telegram botlar, veb-saytlar, IT infratuzilma.',
     nav_about: 'Men haqimda',
     nav_contact: 'Aloqa',
     eyebrow: 'Toshkent, Oʻzbekiston',
     first: 'Javoxirbek',
     last: 'Abduxalimov',
-    roles: ['Kompyuter tizimlari muhandisi', 'Telegram bot dasturchisi', 'Veb-dasturchi', 'Tizim administratori'],
+    role_main: 'Kompyuter tizimlari muhandisi',
+    roles: ['Tizim administratori', 'Telegram bot dasturchisi', 'Veb-dasturchi'],
     lead: 'Murakkab texnik vazifalarni oddiy, ishonchli va oʻzi ishlaydigan tizimlarga aylantiraman.',
     cta_contact: 'Bogʻlanish',
     cta_save: 'Kontaktni saqlash',
@@ -81,18 +82,19 @@ window.I18N = {
     toast_saved: 'Kontakt yuklab olindi',
     footer_name: 'Javoxirbek Abduxalimov',
     footer: 'Barcha huquqlar himoyalangan.',
-    vcard_title: 'Kompyuter tizimlari muhandisi'
+    vcard_title: 'Kompyuter tizimlari muhandisi | Tizim administratori'
   },
 
   ru: {
-    meta_title: 'Джавохирбек Абдухалимов — инженер компьютерных систем',
+    meta_title: 'Джавохирбек Абдухалимов — Инженер компьютерных систем | Системный администратор',
     meta_desc: 'Джавохирбек Абдухалимов — инженер компьютерных систем и разработчик из Ташкента. Telegram-боты, сайты, IT-инфраструктура.',
     nav_about: 'Обо мне',
     nav_contact: 'Контакты',
     eyebrow: 'Ташкент, Узбекистан',
     first: 'Джавохирбек',
     last: 'Абдухалимов',
-    roles: ['Инженер компьютерных систем', 'Разработчик Telegram-ботов', 'Веб-разработчик', 'Системный администратор'],
+    role_main: 'Инженер компьютерных систем',
+    roles: ['Системный администратор', 'Разработчик Telegram-ботов', 'Веб-разработчик'],
     lead: 'Превращаю сложные технические задачи в простые, надёжные и автономные системы.',
     cta_contact: 'Связаться',
     cta_save: 'Сохранить контакт',
@@ -142,18 +144,19 @@ window.I18N = {
     toast_saved: 'Контакт сохранён',
     footer_name: 'Джавохирбек Абдухалимов',
     footer: 'Все права защищены.',
-    vcard_title: 'Инженер компьютерных систем'
+    vcard_title: 'Инженер компьютерных систем | Системный администратор'
   },
 
   en: {
-    meta_title: 'Javokhirbek Abdukhalimov — Computer Systems Engineer',
+    meta_title: 'Javokhirbek Abdukhalimov — Computer Systems Engineer | System Administrator',
     meta_desc: 'Javokhirbek Abdukhalimov — computer systems engineer and developer based in Tashkent. Telegram bots, websites, IT infrastructure.',
     nav_about: 'About',
     nav_contact: 'Contact',
     eyebrow: 'Tashkent, Uzbekistan',
     first: 'Javokhirbek',
     last: 'Abdukhalimov',
-    roles: ['Computer Systems Engineer', 'Telegram Bot Developer', 'Web Developer', 'System Administrator'],
+    role_main: 'Computer Systems Engineer',
+    roles: ['System Administrator', 'Telegram Bot Developer', 'Web Developer'],
     lead: 'I turn complex technical problems into simple, reliable, self-running systems.',
     cta_contact: 'Get in touch',
     cta_save: 'Save contact',
@@ -203,6 +206,6 @@ window.I18N = {
     toast_saved: 'Contact saved',
     footer_name: 'Javokhirbek Abdukhalimov',
     footer: 'All rights reserved.',
-    vcard_title: 'Computer Systems Engineer'
+    vcard_title: 'Computer Systems Engineer | System Administrator'
   }
 };

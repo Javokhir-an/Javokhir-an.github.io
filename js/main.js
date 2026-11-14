@@ -56,6 +56,26 @@
     if (widest > avail && avail > 0) {
       nameEl.style.fontSize = (parseFloat(getComputedStyle(nameEl).fontSize) * avail / widest).toFixed(1) + 'px';
     }
+    fitRole();
+  }
+  var roleBox = document.querySelector('.role'), roleMain = document.querySelector('.role__main');
+  function fitRole() {
+    if (!roleBox || !roleMain) return;
+    roleBox.classList.remove('role--stack');
+    var probe = document.createElement('span');
+    probe.className = 'role__word';
+    probe.style.cssText = 'position:absolute;left:-9999px;top:0;visibility:hidden';
+    roleBox.appendChild(probe);
+    var longest = 0;
+    (t('roles') || []).forEach(function (r) { probe.textContent = r; longest = Math.max(longest, probe.offsetWidth); });
+    roleBox.removeChild(probe);
+    var avail = roleBox.clientWidth;
+    if (window.innerWidth >= 860 && portraitEl && portraitEl.offsetWidth) {
+      avail = Math.min(avail, portraitEl.offsetLeft - portraitEl.offsetWidth * 0.2 - roleBox.getBoundingClientRect().left - 20);
+    }
+    var gap = parseFloat(getComputedStyle(roleBox).columnGap) || 12;
+    var need = 34 + gap + roleMain.offsetWidth + gap + 1 + gap + longest;
+    roleBox.classList.toggle('role--stack', reduceMotion || need > avail);
   }
   window.addEventListener('resize', fitName);
   if (document.fonts) {
@@ -118,10 +138,11 @@
     if (reduceMotion) {
       roleEl.style.height = 'auto';
       roleEl.style.clipPath = 'none';
+      roleEl.style.whiteSpace = 'normal';
       roleEl.textContent = roles.join(' · ');
       return;
     }
-    // Birinchi boʻlib rasmiy lavozim koʻrinadi; almashish faqat birinchi ekran ochilgach boshlanadi
+    // Avval LinkedIn sarlavhasi bilan bir xil: «muhandis | tizim administratori»; almashish birinchi ekran ochilgach boshlanadi
     showRole(roles[0]);
     roleIdx = 1;
     if (heroStarted) scheduleRoles(3200);
