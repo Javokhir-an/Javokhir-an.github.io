@@ -25,6 +25,7 @@
     document.querySelectorAll('[data-i18n]').forEach(function (el) { el.textContent = t(el.getAttribute('data-i18n')); });
     document.querySelectorAll('[data-i18n-html]').forEach(function (el) { el.innerHTML = t(el.getAttribute('data-i18n-html')); });
     document.querySelectorAll('[data-i18n-alt]').forEach(function (el) { el.alt = t(el.getAttribute('data-i18n-alt')); });
+    document.querySelectorAll('img[data-qr]').forEach(function (el) { el.src = 'img/qr-' + next + '.svg'; });
     document.querySelectorAll('[data-i18n-list]').forEach(function (el) {
       var items = t(el.getAttribute('data-i18n-list')) || [];
       el.innerHTML = items.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('');
@@ -214,6 +215,30 @@
     toast(t('toast_saved'));
   }
   document.querySelectorAll('[data-save-contact]').forEach(function (b) { b.addEventListener('click', saveContact); });
+
+  /* QR vizitka: bosilganda katta qilib ochiladi (telefonda boshqa odamga koʻrsatish uchun) */
+  var qrZoom = document.getElementById('qrzoom'), qrOpener = null, qrTimer = 0;
+  function qrOpen(e) {
+    qrOpener = e.currentTarget;
+    clearTimeout(qrTimer);
+    qrZoom.hidden = false;
+    void qrZoom.offsetWidth;
+    qrZoom.classList.add('is-open');
+    document.documentElement.classList.add('is-locked');
+    qrZoom.focus({ preventScroll: true });
+  }
+  function qrClose() {
+    if (!qrZoom.classList.contains('is-open')) return;
+    qrZoom.classList.remove('is-open');
+    document.documentElement.classList.remove('is-locked');
+    qrTimer = setTimeout(function () { qrZoom.hidden = true; }, 350);
+    if (qrOpener) qrOpener.focus({ preventScroll: true });
+  }
+  if (qrZoom) {
+    document.querySelectorAll('[data-qr-open]').forEach(function (b) { b.addEventListener('click', qrOpen); });
+    qrZoom.addEventListener('click', qrClose);
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') qrClose(); });
+  }
 
   var toastEl = document.getElementById('toast'), toastTimer = 0;
   function toast(msg) {

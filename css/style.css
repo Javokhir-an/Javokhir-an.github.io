@@ -430,6 +430,87 @@ html.has-cursor, html.has-cursor * { cursor: none !important; }
 .contact-card__arrow { width: 18px; height: 18px; margin-left: auto; color: var(--muted); transition: transform 0.3s, color 0.3s; }
 .contact-card:hover .contact-card__arrow { transform: translate(2px, -2px); color: var(--c1); }
 
+/* ---------- QR vizitka ---------- */
+.savebox {
+  position: relative; isolation: isolate; display: flex; align-items: center; gap: clamp(26px, 4vw, 48px);
+  max-width: 840px; padding: 28px clamp(24px, 3vw, 36px) 22px 28px; border-radius: calc(var(--radius) + 6px);
+  background: linear-gradient(135deg, rgba(34, 211, 238, 0.07), rgba(167, 139, 250, 0.06) 55%, rgba(244, 114, 182, 0.05));
+  border: 1px solid var(--line);
+}
+.savebox::before {
+  content: ''; position: absolute; left: 28px; right: 28px; top: -1px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--c1), var(--c2), transparent); opacity: 0.8;
+}
+.savebox__qr { flex-shrink: 0; display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 12px 12px 0; cursor: zoom-in; border-radius: 18px; }
+.savebox__tile {
+  position: relative; display: block; width: 200px; height: 200px; padding: 13px; border-radius: 16px; background: #fff;
+  box-shadow: 0 24px 60px -24px rgba(34, 211, 238, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.5);
+  transition: transform 0.35s cubic-bezier(.2,.7,.2,1), box-shadow 0.35s;
+}
+.savebox__tile img { display: block; width: 100%; height: 100%; }
+/* kamera koʻzgusi uslubidagi burchaklar */
+.savebox__tile::before {
+  content: ''; position: absolute; inset: -11px; pointer-events: none;
+  --k: 24px; --w: 2px;
+  background:
+    linear-gradient(var(--c1), var(--c1)) left top / var(--k) var(--w),
+    linear-gradient(var(--c1), var(--c1)) left top / var(--w) var(--k),
+    linear-gradient(var(--c1), var(--c1)) right top / var(--k) var(--w),
+    linear-gradient(var(--c1), var(--c1)) right top / var(--w) var(--k),
+    linear-gradient(var(--c2), var(--c2)) left bottom / var(--k) var(--w),
+    linear-gradient(var(--c2), var(--c2)) left bottom / var(--w) var(--k),
+    linear-gradient(var(--c2), var(--c2)) right bottom / var(--k) var(--w),
+    linear-gradient(var(--c2), var(--c2)) right bottom / var(--w) var(--k);
+  background-repeat: no-repeat;
+  transition: inset 0.35s cubic-bezier(.2,.7,.2,1);
+}
+.savebox__qr:hover .savebox__tile { transform: translateY(-3px); box-shadow: 0 30px 70px -22px rgba(34, 211, 238, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.5); }
+.savebox__qr:hover .savebox__tile::before { inset: -15px; }
+.savebox__scan {
+  position: absolute; left: 8px; right: 8px; top: 8px; height: 2px; border-radius: 2px; opacity: 0; pointer-events: none;
+  background: linear-gradient(90deg, transparent, var(--c1) 18%, var(--c2) 82%, transparent);
+  box-shadow: 0 0 14px 2px rgba(34, 211, 238, 0.55);
+}
+@keyframes qrscan {
+  0% { top: 8px; opacity: 0; }
+  12%, 88% { opacity: 1; }
+  100% { top: calc(100% - 10px); opacity: 0; }
+}
+.savebox.is-in .savebox__scan { animation: qrscan 1.6s cubic-bezier(.45,0,.55,1) 0.6s 2; }
+.savebox__qr:hover .savebox__scan { animation: qrscan 1.6s cubic-bezier(.45,0,.55,1) 0s 1; }
+.savebox__zoom { display: inline-flex; align-items: center; gap: 7px; font-size: 12.5px; color: var(--muted); transition: color 0.3s; }
+.savebox__zoom svg { width: 14px; height: 14px; }
+.savebox__qr:hover .savebox__zoom { color: var(--c1); }
+.savebox__body { min-width: 0; padding-bottom: 6px; }
+.savebox__title { margin: 0 0 10px; font-size: clamp(19px, 2vw, 24px); font-weight: 700; letter-spacing: -0.01em; line-height: 1.3; }
+.savebox__text { margin: 0 0 24px; max-width: 430px; color: var(--muted); font-size: 15px; }
+@media (max-width: 640px) {
+  .savebox { flex-direction: column; text-align: center; gap: 22px; padding: 30px 18px 24px; }
+  .savebox::before { left: 18px; right: 18px; }
+  .savebox__text { margin-left: auto; margin-right: auto; }
+}
+
+/* QR katta koʻrinishda */
+html.is-locked { overflow: hidden; }
+.qrzoom {
+  position: fixed; inset: 0; z-index: 80; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px;
+  padding: 24px; cursor: zoom-out; opacity: 0; transition: opacity 0.3s;
+  background: rgba(5, 6, 10, 0.84); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+}
+.qrzoom[hidden] { display: none; }
+.qrzoom.is-open { opacity: 1; }
+.qrzoom:focus { outline: none; }
+.qrzoom__card {
+  width: min(88vw, 64vh, 460px); padding: 22px 22px 20px; border-radius: 26px; text-align: center;
+  background: #fff; color: #0a0d18; box-shadow: 0 40px 120px -30px rgba(34, 211, 238, 0.55);
+  transform: scale(0.92) translateY(12px); transition: transform 0.45s cubic-bezier(.2,.7,.2,1);
+}
+.qrzoom.is-open .qrzoom__card { transform: none; }
+.qrzoom__card img { display: block; width: 100%; height: auto; }
+.qrzoom__name { margin: 18px 0 2px; font-family: var(--display); font-weight: 700; font-size: clamp(16px, 4.4vw, 20px); letter-spacing: -0.01em; }
+.qrzoom__role { margin: 0; font-size: 14px; color: #5b6478; }
+.qrzoom__hint { margin: 0; font-size: 13px; color: var(--muted); }
+
 /* ---------- Footer ---------- */
 .footer { position: relative; z-index: 1; border-top: 1px solid var(--line); padding: 28px 0; }
 .footer__inner { display: flex; align-items: center; gap: 14px; }
