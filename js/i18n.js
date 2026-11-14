@@ -10,7 +10,7 @@ window.PROFILE = {
   github: 'Javokhir-an',
   instagram: 'javohir.a.n',
   linkedin: '',       // havola yoki nom: 'https://www.linkedin.com/in/...'
-  linkedinName: 'Javohir Abduhalimov',
+  linkedinName: 'Javohirbek Abduhalimov',
   website: '',        // masalan: 'https://misol.uz'
   hours: [8, 20],     // ish vaqti (Toshkent vaqti), soat
   workdays: [1, 2, 3, 4, 5, 6]  // 0 = yakshanba ... 6 = shanba
@@ -24,13 +24,13 @@ window.STACK = [
 
 window.I18N = {
   uz: {
-    meta_title: 'Javoxirbek Abduxalimov — Kompyuter tizimlari muhandisi | Tizim administratori',
-    meta_desc: 'Javoxirbek Abduxalimov — Toshkentlik kompyuter tizimlari muhandisi va dasturchi. Telegram botlar, veb-saytlar, IT infratuzilma.',
+    meta_title: 'Javohirbek Abduhalimov — Kompyuter tizimlari muhandisi | Tizim administratori',
+    meta_desc: 'Javohirbek Abduhalimov — Toshkentlik kompyuter tizimlari muhandisi va dasturchi. Telegram botlar, veb-saytlar, IT infratuzilma.',
     nav_about: 'Men haqimda',
     nav_contact: 'Aloqa',
     eyebrow: 'Toshkent, Oʻzbekiston',
-    first: 'Javoxirbek',
-    last: 'Abduxalimov',
+    first: 'Javohirbek',
+    last: 'Abduhalimov',
     role_main: 'Kompyuter tizimlari muhandisi',
     roles: ['Tizim administratori', 'Telegram bot dasturchisi', 'Veb-dasturchi'],
     lead: 'Murakkab texnik vazifalarni oddiy, ishonchli va oʻzi ishlaydigan tizimlarga aylantiraman.',
@@ -80,7 +80,7 @@ window.I18N = {
     qr_close: 'Yopish uchun istalgan joyga bosing',
     c_phone: 'Telefon', c_telegram: 'Telegram', c_whatsapp: 'WhatsApp', c_email: 'Email', c_github: 'GitHub', c_instagram: 'Instagram', c_linkedin: 'LinkedIn', c_website: 'Sayt',
     toast_saved: 'Kontakt yuklab olindi',
-    footer_name: 'Javoxirbek Abduxalimov',
+    footer_name: 'Javohirbek Abduhalimov',
     footer: 'Barcha huquqlar himoyalangan.',
     vcard_title: 'Kompyuter tizimlari muhandisi | Tizim administratori'
   },
@@ -148,13 +148,13 @@ window.I18N = {
   },
 
   en: {
-    meta_title: 'Javokhirbek Abdukhalimov — Computer Systems Engineer | System Administrator',
-    meta_desc: 'Javokhirbek Abdukhalimov — computer systems engineer and developer based in Tashkent. Telegram bots, websites, IT infrastructure.',
+    meta_title: 'Javohirbek Abduhalimov — Computer Systems Engineer | System Administrator',
+    meta_desc: 'Javohirbek Abduhalimov — computer systems engineer and developer based in Tashkent. Telegram bots, websites, IT infrastructure.',
     nav_about: 'About',
     nav_contact: 'Contact',
     eyebrow: 'Tashkent, Uzbekistan',
-    first: 'Javokhirbek',
-    last: 'Abdukhalimov',
+    first: 'Javohirbek',
+    last: 'Abduhalimov',
     role_main: 'Computer Systems Engineer',
     roles: ['System Administrator', 'Telegram Bot Developer', 'Web Developer'],
     lead: 'I turn complex technical problems into simple, reliable, self-running systems.',
@@ -204,7 +204,7 @@ window.I18N = {
     qr_close: 'Tap anywhere to close',
     c_phone: 'Phone', c_telegram: 'Telegram', c_whatsapp: 'WhatsApp', c_email: 'Email', c_github: 'GitHub', c_instagram: 'Instagram', c_linkedin: 'LinkedIn', c_website: 'Website',
     toast_saved: 'Contact saved',
-    footer_name: 'Javokhirbek Abdukhalimov',
+    footer_name: 'Javohirbek Abduhalimov',
     footer: 'All rights reserved.',
     vcard_title: 'Computer Systems Engineer | System Administrator'
   }
