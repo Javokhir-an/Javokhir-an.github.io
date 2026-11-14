@@ -414,6 +414,7 @@ html.has-cursor, html.has-cursor * { cursor: none !important; }
 .contact__text { margin: 22px 0 40px; max-width: 520px; color: var(--muted); font-size: clamp(16px, 1.6vw, 19px); }
 .contacts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; max-width: 840px; margin-bottom: 36px; }
 .contacts:empty { display: none; }
+.contacts > .contact-card:last-child:nth-child(odd) { grid-column: 1 / -1; }
 .contact-card {
   display: flex; align-items: center; gap: 16px; padding: 18px 20px;
   transition: border-color 0.3s, transform 0.3s;

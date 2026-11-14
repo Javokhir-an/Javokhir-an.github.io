@@ -9,6 +9,8 @@ window.PROFILE = {
   email: 'javohir08122004@gmail.com',
   github: 'Javokhir-an',
   instagram: 'javohir.a.n',
+  linkedin: '',       // havola yoki nom: 'https://www.linkedin.com/in/...'
+  linkedinName: 'Javohir Abduhalimov',
   website: '',        // masalan: 'https://misol.uz'
   hours: [8, 20],     // ish vaqti (Toshkent vaqti), soat
   workdays: [1, 2, 3, 4, 5, 6]  // 0 = yakshanba ... 6 = shanba
@@ -75,7 +77,7 @@ window.I18N = {
     qr_zoom: 'Kattalashtirish',
     qr_alt: 'Kontakt QR kodi',
     qr_close: 'Yopish uchun istalgan joyga bosing',
-    c_phone: 'Telefon', c_telegram: 'Telegram', c_whatsapp: 'WhatsApp', c_email: 'Email', c_github: 'GitHub', c_instagram: 'Instagram', c_website: 'Sayt',
+    c_phone: 'Telefon', c_telegram: 'Telegram', c_whatsapp: 'WhatsApp', c_email: 'Email', c_github: 'GitHub', c_instagram: 'Instagram', c_linkedin: 'LinkedIn', c_website: 'Sayt',
     toast_saved: 'Kontakt yuklab olindi',
     footer_name: 'Javoxirbek Abduxalimov',
     footer: 'Barcha huquqlar himoyalangan.',
@@ -136,7 +138,7 @@ window.I18N = {
     qr_zoom: 'Увеличить',
     qr_alt: 'QR-код контакта',
     qr_close: 'Нажмите в любом месте, чтобы закрыть',
-    c_phone: 'Телефон', c_telegram: 'Telegram', c_whatsapp: 'WhatsApp', c_email: 'Email', c_github: 'GitHub', c_instagram: 'Instagram', c_website: 'Сайт',
+    c_phone: 'Телефон', c_telegram: 'Telegram', c_whatsapp: 'WhatsApp', c_email: 'Email', c_github: 'GitHub', c_instagram: 'Instagram', c_linkedin: 'LinkedIn', c_website: 'Сайт',
     toast_saved: 'Контакт сохранён',
     footer_name: 'Джавохирбек Абдухалимов',
     footer: 'Все права защищены.',
@@ -197,7 +199,7 @@ window.I18N = {
     qr_zoom: 'Enlarge',
     qr_alt: 'Contact QR code',
     qr_close: 'Tap anywhere to close',
-    c_phone: 'Phone', c_telegram: 'Telegram', c_whatsapp: 'WhatsApp', c_email: 'Email', c_github: 'GitHub', c_instagram: 'Instagram', c_website: 'Website',
+    c_phone: 'Phone', c_telegram: 'Telegram', c_whatsapp: 'WhatsApp', c_email: 'Email', c_github: 'GitHub', c_instagram: 'Instagram', c_linkedin: 'LinkedIn', c_website: 'Website',
     toast_saved: 'Contact saved',
     footer_name: 'Javokhirbek Abdukhalimov',
     footer: 'All rights reserved.',

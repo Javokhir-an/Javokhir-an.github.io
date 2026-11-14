@@ -139,8 +139,16 @@
     email: '<rect x="3" y="5" width="18" height="14" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 6.5l8.5 6.5 8.5-6.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>',
     github: '<path d="M12 2.5a9.5 9.5 0 0 0-3 18.5c.5.1.7-.2.7-.5v-1.7c-2.7.6-3.3-1.2-3.3-1.2-.4-1.1-1.1-1.4-1.1-1.4-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.3-1.1.6-1.3-2.1-.2-4.4-1.1-4.4-4.8 0-1 .4-1.9 1-2.6-.1-.3-.4-1.2.1-2.5 0 0 .8-.3 2.6 1a9 9 0 0 1 4.8 0c1.8-1.3 2.6-1 2.6-1 .5 1.3.2 2.2.1 2.5.6.7 1 1.6 1 2.6 0 3.7-2.3 4.6-4.4 4.8.3.3.7.9.7 1.8v2.7c0 .3.2.6.7.5A9.5 9.5 0 0 0 12 2.5z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>',
     instagram: '<rect x="3.5" y="3.5" width="17" height="17" rx="5" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor"/>',
+    linkedin: '<rect x="3" y="3" width="18" height="18" rx="3.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8 10.5V17M8 7.2v.1M11.5 17v-6.5M11.5 13.3c0-1.7 1.1-2.8 2.5-2.8s2.3 1 2.3 2.7V17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>',
     website: '<circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z" fill="none" stroke="currentColor" stroke-width="1.7"/>'
   };
+
+  /* PROFILE.linkedin toʻliq havola yoki faqat nom boʻlishi mumkin: .../in/<nom>/ */
+  function linkedinSlug() {
+    var v = String(PROFILE.linkedin || '').trim();
+    var m = v.match(/linkedin\.com\/in\/([^/?#]+)/i);
+    return m ? m[1] : v.replace(/^\/+|\/+$/g, '');
+  }
 
   function contactItems() {
     var items = [];
@@ -148,6 +156,8 @@
     if (PROFILE.telegram) items.push({ k: 'telegram', value: '@' + PROFILE.telegram.replace(/^@/, ''), href: 'https://t.me/' + PROFILE.telegram.replace(/^@/, '') });
     if (PROFILE.whatsapp) items.push({ k: 'whatsapp', value: PROFILE.whatsapp.replace(/^\+?998(\d{2})(\d{3})(\d{2})(\d{2})$/, '+998 $1 $2 $3 $4'), href: 'https://wa.me/' + PROFILE.whatsapp.replace(/\D/g, '') });
     if (PROFILE.email) items.push({ k: 'email', value: PROFILE.email, href: 'mailto:' + PROFILE.email });
+    var li = linkedinSlug();
+    if (li) items.push({ k: 'linkedin', value: PROFILE.linkedinName || 'in/' + li, href: 'https://www.linkedin.com/in/' + li + '/' });
     if (PROFILE.github) items.push({ k: 'github', value: PROFILE.github, href: 'https://github.com/' + PROFILE.github });
     if (PROFILE.instagram) items.push({ k: 'instagram', value: '@' + PROFILE.instagram.replace(/^@/, ''), href: 'https://instagram.com/' + PROFILE.instagram.replace(/^@/, '') });
     if (PROFILE.website) items.push({ k: 'website', value: PROFILE.website.replace(/^https?:\/\//, ''), href: PROFILE.website });
@@ -222,6 +232,7 @@
     if (PROFILE.telegram) lines.push('URL;TYPE=Telegram:https://t.me/' + PROFILE.telegram.replace(/^@/, ''));
     if (PROFILE.whatsapp) lines.push('URL;TYPE=WhatsApp:https://wa.me/' + PROFILE.whatsapp.replace(/\D/g, ''));
     if (PROFILE.instagram) lines.push('URL;TYPE=Instagram:https://instagram.com/' + PROFILE.instagram.replace(/^@/, ''));
+    if (linkedinSlug()) lines.push('URL;TYPE=LinkedIn:https://www.linkedin.com/in/' + linkedinSlug() + '/');
     if (PROFILE.github) lines.push('URL;TYPE=GitHub:https://github.com/' + PROFILE.github);
     if (PROFILE.website) lines.push('URL:' + PROFILE.website);
     else if (/^https?:/.test(location.href)) lines.push('URL:' + location.origin + location.pathname);
