@@ -9,7 +9,9 @@ window.PROFILE = {
   email: 'javohir08122004@gmail.com',
   github: 'Javokhir-an',
   instagram: 'javohir.a.n',
-  website: ''         // masalan: 'https://misol.uz'
+  website: '',        // masalan: 'https://misol.uz'
+  hours: [8, 20],     // ish vaqti (Toshkent vaqti), soat
+  workdays: [1, 2, 3, 4, 5, 6]  // 0 = yakshanba ... 6 = shanba
 };
 
 window.STACK = [
@@ -60,6 +62,14 @@ window.I18N = {
     contact_kicker: 'Aloqa',
     contact_title: 'Keling, tanishamiz',
     contact_text: 'Gʻoyangiz yoki savolingiz bormi? Yozing — albatta javob beraman.',
+    av_open: 'Yangi loyihalarga ochiqman',
+    av_days: 'Du–Sha',
+    av_tz: 'Toshkent vaqti',
+    av_reply: 'Odatda 1 soat ichida javob beraman',
+    av_now: 'hozir aloqadaman',
+    av_today: 'bugun {t} dan',
+    av_tomorrow: 'ertaga {t} dan',
+    av_monday: 'dushanba {t} dan',
     qr_title: 'Kontaktni telefoningizga saqlang',
     qr_text: 'Telefon kamerasini QR kodga tuting — kontakt bir zumda saqlanadi. Yoki vizitka faylini yuklab oling.',
     qr_zoom: 'Kattalashtirish',
@@ -113,6 +123,14 @@ window.I18N = {
     contact_kicker: 'Контакты',
     contact_title: 'Давайте познакомимся',
     contact_text: 'Есть идея или вопрос? Пишите — обязательно отвечу.',
+    av_open: 'Открыт для новых проектов',
+    av_days: 'Пн–Сб',
+    av_tz: 'по Ташкенту',
+    av_reply: 'Обычно отвечаю в течение часа',
+    av_now: 'сейчас на связи',
+    av_today: 'сегодня с {t}',
+    av_tomorrow: 'завтра с {t}',
+    av_monday: 'в понедельник с {t}',
     qr_title: 'Сохраните контакт в телефон',
     qr_text: 'Наведите камеру телефона на QR-код — контакт сохранится сразу. Или скачайте файл визитки.',
     qr_zoom: 'Увеличить',
@@ -166,6 +184,14 @@ window.I18N = {
     contact_kicker: 'Contact',
     contact_title: 'Let\'s get acquainted',
     contact_text: 'Have an idea or a question? Write to me — I\'ll definitely reply.',
+    av_open: 'Open to new projects',
+    av_days: 'Mon–Sat',
+    av_tz: 'Tashkent time',
+    av_reply: 'I usually reply within an hour',
+    av_now: 'available now',
+    av_today: 'today from {t}',
+    av_tomorrow: 'tomorrow from {t}',
+    av_monday: 'Monday from {t}',
     qr_title: 'Save my contact to your phone',
     qr_text: 'Point your phone camera at the QR code and the contact is saved instantly. Or download the contact file.',
     qr_zoom: 'Enlarge',

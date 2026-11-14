@@ -38,6 +38,7 @@
     document.querySelectorAll('[data-split]').forEach(splitLetters);
     fitName();
     renderContacts();
+    renderAvail();
     restartRoles();
   }
 
@@ -154,6 +155,27 @@
   }
 
   function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+
+  /* Ish vaqti: Toshkent vaqti (UTC+5) boʻyicha hozir aloqadami yoki qachondan javob beradi */
+  function renderAvail() {
+    var hoursEl = document.getElementById('avail-hours'), liveEl = document.getElementById('avail-live');
+    if (!hoursEl || !liveEl) return;
+    var h = PROFILE.hours || [8, 20], days = PROFILE.workdays || [1, 2, 3, 4, 5, 6];
+    var hh = function (n) { return (n < 10 ? '0' : '') + n + ':00'; };
+    hoursEl.textContent = t('av_days') + ', ' + hh(h[0]) + '–' + hh(h[1]);
+    var now = new Date(Date.now() + 5 * 3600e3), day = now.getUTCDay(), hour = now.getUTCHours() + now.getUTCMinutes() / 60;
+    var isDay = function (d) { return days.indexOf(d % 7) !== -1; };
+    var text, on = false;
+    if (isDay(day) && hour >= h[0] && hour < h[1]) { text = t('av_now'); on = true; }
+    else {
+      var add = (isDay(day) && hour < h[0]) ? 0 : 1;
+      while (!isDay(day + add) && add < 7) add++;
+      text = t(add === 0 ? 'av_today' : add === 1 ? 'av_tomorrow' : 'av_monday').replace('{t}', hh(h[0]));
+    }
+    liveEl.textContent = text;
+    liveEl.classList.toggle('is-on', on);
+  }
+  setInterval(renderAvail, 60000);
 
   function renderContacts() {
     var box = document.getElementById('contacts');

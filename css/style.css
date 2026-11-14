@@ -430,6 +430,31 @@ html.has-cursor, html.has-cursor * { cursor: none !important; }
 .contact-card__arrow { width: 18px; height: 18px; margin-left: auto; color: var(--muted); transition: transform 0.3s, color 0.3s; }
 .contact-card:hover .contact-card__arrow { transform: translate(2px, -2px); color: var(--c1); }
 
+/* ---------- Ish vaqti / holat ---------- */
+.contact__text + .avail { margin-top: -14px; }
+.avail { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 26px; padding: 0; list-style: none; }
+.avail__pill {
+  display: inline-flex; align-items: center; gap: 10px; min-height: 42px; padding: 9px 17px;
+  border-radius: 999px; border: 1px solid var(--line); background: var(--surface);
+  font-size: 14px; line-height: 1.35; color: #c9d0df;
+}
+.avail__pill > svg { flex-shrink: 0; width: 16px; height: 16px; color: var(--c1); }
+.avail__pill--open { color: #e8fff6; border-color: rgba(52, 211, 153, 0.35); background: rgba(52, 211, 153, 0.08); font-weight: 600; }
+.avail__dot { position: relative; flex-shrink: 0; width: 8px; height: 8px; border-radius: 50%; background: #34d399; box-shadow: 0 0 10px rgba(52, 211, 153, 0.9); }
+.avail__dot::after {
+  content: ''; position: absolute; inset: 0; border-radius: 50%; border: 2px solid #34d399;
+  animation: avping 1.9s cubic-bezier(0, 0, .2, 1) infinite;
+}
+@keyframes avping { 0% { transform: scale(1); opacity: 0.85; } 100% { transform: scale(3); opacity: 0; } }
+.avail__tz { font-size: 12.5px; color: var(--muted); }
+.avail__live { color: #fbbf24; font-weight: 600; white-space: nowrap; }
+.avail__live:not(:empty)::before { content: '·'; margin: 0 8px; color: var(--muted); font-weight: 400; }
+.avail__live.is-on { color: #34d399; }
+@media (max-width: 640px) {
+  .avail { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .avail__pill { font-size: 13.5px; border-radius: 18px; }
+}
+
 /* ---------- QR vizitka ---------- */
 .savebox {
   position: relative; isolation: isolate; display: flex; align-items: center; gap: clamp(26px, 4vw, 48px);
